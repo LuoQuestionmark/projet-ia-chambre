@@ -64,6 +64,7 @@ public class Room implements Runnable {
     }
 
     synchronized public boolean geneJewel() {
+        // generate a jewel instantly, low-level
         ArrayList<Cell> cleanCells = getNoJewelCells();
         if (cleanCells.size() == 0) return false;
 
@@ -74,6 +75,7 @@ public class Room implements Runnable {
     }
 
     synchronized public boolean geneJewel(int n) {
+        // generate <n> jewel instantly, low-level
         while (n > 0) {
             if (geneJewel() == false) return false;
             else n -= 1;
@@ -82,6 +84,7 @@ public class Room implements Runnable {
     }
     
     synchronized public boolean geneDirt() {
+        // generate a dirt instantly, low-level
         ArrayList<Cell> cleanCells = getCleanCells();
         if (cleanCells.size() == 0) return false;
         
@@ -92,6 +95,7 @@ public class Room implements Runnable {
     }
     
     synchronized public boolean geneDirt(int n) {
+        // generate <n> dirt instantly, low-level
         while (n > 0) {
             if (geneDirt() == false) return false;
             else n -= 1;
@@ -129,11 +133,22 @@ public class Room implements Runnable {
     }
 
     synchronized public void newDirt() {
+        // try to add a dirt, it will be added in the next loop
         this.addDirt = true;
     }
 
     synchronized public void newJewel() {
+        // try to add a jewel, it will be added in the next loop
         this.addJewel = true;
+    }
+
+    synchronized public void clearCell(int index) {
+        this.cells.get(index).setDirt(false);
+        this.cells.get(index).setJewel(false);
+    }
+
+    synchronized public void pickJewel(int index) {
+        this.cells.get(index).setJewel(false);
     }
 
     @Override

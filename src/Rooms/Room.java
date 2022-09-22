@@ -33,11 +33,31 @@ public class Room implements Runnable {
         return out;
     }
 
+    synchronized public ArrayList<Integer> getCleanCellsIndex () {
+        ArrayList<Integer> out = new ArrayList<>();
+        for (Cell c: cells) {
+            if (!(c.hasDirt())) {
+                out.add(cells.indexOf(c));
+            }
+        }
+        return out;
+    }
+
     synchronized public ArrayList<Cell> getNoJewelCells () {
         ArrayList<Cell> out = new ArrayList<Cell>();
         for (Cell c: cells) {
             if (!(c.hasJewel())) {
                 out.add(c);
+            }
+        }
+        return out;
+    }
+
+    synchronized public ArrayList<Integer> getNoJewelCellsIndex () {
+        ArrayList<Integer> out = new ArrayList<>();
+        for (Cell c: cells) {
+            if (!(c.hasJewel())) {
+                out.add(cells.indexOf(c));
             }
         }
         return out;

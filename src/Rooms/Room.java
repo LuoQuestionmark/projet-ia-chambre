@@ -7,9 +7,14 @@ import java.util.concurrent.ThreadLocalRandom; // using this instead of Random b
                                                // possible implementation of multithread in 
                                                // the future.
 
-public class Room {
+public class Room implements Runnable {
     private final int cellNum = 25;
     private ArrayList<Cell> cells;
+
+    private boolean addJewel = false;
+    private boolean addDirt = false;
+
+    volatile public boolean isRunning = false;
 
     public Room() {
         this.cells = new ArrayList<>();
@@ -18,7 +23,7 @@ public class Room {
         }
     }
 
-    public ArrayList<Cell> getCleanCells () {
+    synchronized public ArrayList<Cell> getCleanCells () {
         ArrayList<Cell> out = new ArrayList<>();
         for (Cell c: cells) {
             if (!(c.hasDirt())) {
@@ -28,7 +33,7 @@ public class Room {
         return out;
     }
 
-    public ArrayList<Cell> getNoJewelCells () {
+    synchronized public ArrayList<Cell> getNoJewelCells () {
         ArrayList<Cell> out = new ArrayList<Cell>();
         for (Cell c: cells) {
             if (!(c.hasJewel())) {
@@ -38,7 +43,7 @@ public class Room {
         return out;
     }
 
-    public boolean geneJewel() {
+    synchronized public boolean geneJewel() {
         ArrayList<Cell> cleanCells = getNoJewelCells();
         if (cleanCells.size() == 0) return false;
 
@@ -48,33 +53,33 @@ public class Room {
         return true;
     }
 
-    public boolean geneJewel(int n) {
+    synchronized public boolean geneJewel(int n) {
         while (n > 0) {
             if (geneJewel() == false) return false;
             else n -= 1;
         }
         return true;
     }
-
-    public boolean geneDirt(int n) {
+    
+    synchronized public boolean geneDirt() {
+        ArrayList<Cell> cleanCells = getCleanCells();
+        if (cleanCells.size() == 0) return false;
+        
+        int roomIndex = ThreadLocalRandom.current().nextInt(cleanCells.size());
+        this.cells.get(roomIndex).setDirt(true);
+        
+        return true;
+    }
+    
+    synchronized public boolean geneDirt(int n) {
         while (n > 0) {
             if (geneDirt() == false) return false;
             else n -= 1;
         }
         return true;
     }
-
-    public boolean geneDirt() {
-        ArrayList<Cell> cleanCells = getCleanCells();
-        if (cleanCells.size() == 0) return false;
-
-        int roomIndex = ThreadLocalRandom.current().nextInt(cleanCells.size());
-        this.cells.get(roomIndex).setDirt(true);
-
-        return true;
-    }
-
-    public void printRoom() {
+    
+    synchronized public void printRoom() {
         // Attention: this function only work when there is exactly 25 pieces.
         // this function provide an easy way to visualize the status of the room.
         // @ : both jewel and dirt
@@ -100,6 +105,30 @@ public class Room {
                 }
             }
             System.out.print("\n");
+        }
+    }
+
+    synchronized public void newDirt() {
+        this.addDirt = true;
+    }
+
+    synchronized public void newJewel() {
+        this.addJewel = true;
+    }
+
+    @Override
+    public void run() {
+        isRunning = true;
+        while (isRunning) {
+            if (addJewel) {
+                this.addJewel = false;
+                this.geneJewel();
+            }
+
+            if (addDirt) {
+                this.addDirt = false;
+                this.geneDirt();
+            }
         }
     }
 }

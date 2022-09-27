@@ -14,4 +14,9 @@ public class Pick implements Action{
     public void doThis() {
         robot.pick();
     }
+
+    @Override
+    public String toString() {
+        return "action: pick";
+    }
 }

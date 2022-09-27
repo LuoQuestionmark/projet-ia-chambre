@@ -109,4 +109,16 @@ public class Robot {
         this.belief = new Belief(this.coord, this.vision.getDirtyCellsIndex(), this.vision.getJewelCellsIndex());
     }
     
+    @Override
+    public String toString() {
+        String out = new String();
+        out += "robot status: \n";
+        out += String.format("located at coord %d, %d\n", this.coord.x, this.coord.y);
+        out += String.format("with energy %d", this.energy);
+        out += "current intentions: \n";
+        for (Action a: this.intentions) {
+            out += "|-" + a.toString() + "\n";
+        }
+        return out;
+    }
 }

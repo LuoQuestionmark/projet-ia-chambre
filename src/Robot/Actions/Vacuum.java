@@ -14,4 +14,9 @@ public class Vacuum implements Action{
     public void doThis() {
         robot.clean();
     }
+
+    @Override
+    public String toString() {
+        return "action: vacuum";
+    }
 }

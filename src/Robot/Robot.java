@@ -1,5 +1,9 @@
 package Robot;
 
+import java.util.ArrayList;
+
+import Robot.Actions.Action;
+import Robot.Beliefs.Belief;
 import Rooms.Room;
 import myUtil.Vec2Int;
 
@@ -12,6 +16,9 @@ public class Robot {
     private Room room;        // the Room object with 25 pieces.
     private Vision vision;    // the vision class
     private Cleaner cleaner;  // the cleaner class
+
+    private ArrayList<Action> intentions;
+    private Belief belief;
 
     public Robot (Room r) {
         this.energy = Robot.defaultEnergy;
@@ -85,6 +92,21 @@ public class Robot {
 
         this.cleaner.pickJewel(r, c);
         return true;
+    }
+    
+    public boolean act() {
+        if (this.intentions.size() == 0) {
+            return false;
+        }
+        // pop the action
+        Action a = this.intentions.get(this.intentions.size() - 1);
+        a.doThis();
+        this.intentions.remove(this.intentions.size() - 1);
+        return true;
+    }
+
+    public void observe() {
+        this.belief = new Belief(this.coord, this.vision.getDirtyCellsIndex(), this.vision.getJewelCellsIndex());
     }
     
 }

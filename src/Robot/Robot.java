@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Robot.Actions.Action;
 import Robot.Beliefs.Belief;
+import Robot.Desires.Desire;
 import Rooms.Room;
 import myUtil.Vec2Int;
 
@@ -19,12 +20,14 @@ public class Robot {
 
     private ArrayList<Action> intentions;
     private Belief belief;
+    private Desire desire;
 
-    public Robot (Room r) {
+    public Robot (Room r, Desire d) {
         this.energy = Robot.defaultEnergy;
         this.room = r;
         this.vision = new Vision(r);
         this.cleaner = new Cleaner(r);
+        this.desire = d;
     }
 
     public boolean move (int direction) {

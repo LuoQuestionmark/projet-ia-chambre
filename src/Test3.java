@@ -1,14 +1,14 @@
 import Rooms.*;
 import Robot.*;
 import Robot.Desires.*;
-import Robot.Search.NonInformedSearchGenerator;
+import Robot.Search.InformedSearchGenerator;
 import Robot.Search.SearchGenerator;
 
-public class Test2 {
+public class Test3 {
     public static void main(String[] args) throws Exception {
         Room r = new Room();
-        SearchGenerator sg = new NonInformedSearchGenerator();
-        Robot bot = new Robot(r, new DesireTypeB(), sg);
+        SearchGenerator sg = new InformedSearchGenerator();
+        Robot bot = new Robot(r, new DesireTypeC(), sg);
 
         Thread roomThread = new Thread(r);
         Thread botThread = new Thread(bot);

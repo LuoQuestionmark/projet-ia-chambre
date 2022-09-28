@@ -45,13 +45,13 @@ public class InformedSearch implements Search {
         }
         // possible action:
         // the check can reduce some possibilities
-        for (Vec2Int v: this.belief.jewelCellsIndex) {
+        for (Vec2Int v: situation.jewelCellsIndex) {
             if (v.equals(situation.coord)) {
                 out.add(new Pick(this.robot));
             }
         }
 
-        for (Vec2Int v: this.belief.dirtyCellsIndex) {
+        for (Vec2Int v: situation.dirtyCellsIndex) {
             if (v.equals(situation.coord)) {
                 out.add(new Vacuum(this.robot));
             }
@@ -86,7 +86,7 @@ public class InformedSearch implements Search {
                 Belief newBelief = situation.act(a);
                 actions.add(a);
 
-                // int score = this.desire.evaluate(newBelief);
+                int score = this.desire.evaluate(newBelief);
 
                 // exit condition
                 if (newBelief.dirtyCellsIndex.size() == 0 &&

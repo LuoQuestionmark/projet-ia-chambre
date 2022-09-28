@@ -102,12 +102,14 @@ public class Belief {
             }
         }
         else if (a instanceof Pick) {
+            ArrayList<Vec2Int> tmp = new ArrayList<>();
             for (Vec2Int coord: out.getJewelCellesIndex()) {
                 if (out.coord.equals(coord)) {
-                    out.jewelCellsIndex.remove(coord);
+                    tmp.add(coord);
                     out.jewelCollected += 1;
                 }
             }
+            out.jewelCellsIndex.removeAll(tmp);
         }
         else if (a instanceof Vacuum) {
             synchronized(dirtyCellsIndex) {

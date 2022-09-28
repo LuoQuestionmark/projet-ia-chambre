@@ -55,8 +55,6 @@ public class NonInformedSearch implements Search {
             }
         }
 
-        out.add(new NoAction());
-
         return out;
     }
 

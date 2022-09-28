@@ -14,10 +14,10 @@ public class Test3 {
         Thread botThread = new Thread(bot);
         roomThread.start();
         botThread.start();
-        r.geneDirt(3);
+        r.setAutoGenerate(true);
         while (true) {
             r.printRoom();
-            System.out.print(bot);
+            // System.out.print(bot);
             Thread.sleep(1000);
         }
     }

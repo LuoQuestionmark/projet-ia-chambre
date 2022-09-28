@@ -98,8 +98,8 @@ public class Robot implements Runnable {
             return false;
         }
 
-        int r = this.coord.x;
-        int c = this.coord.y;
+        int r = this.coord.y;
+        int c = this.coord.x;
 
         this.cleaner.pickJewel(r, c);
         return true;

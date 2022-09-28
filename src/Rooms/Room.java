@@ -129,7 +129,10 @@ public class Room implements Runnable {
             for (int j = 0; j < 5; j++) {
                 int index = i * 5 + j;
                 Cell c = this.cells.get(index);
-                if (c.hasDirt() && c.hasJewel()) {
+                if (this.robotCoord != null && this.robotCoord.x == j && this.robotCoord.y == i) {
+                    System.out.print(" + |");
+                }
+                else if (c.hasDirt() && c.hasJewel()) {
                     System.out.print(" @ |");
                 }
                 else if (c.hasDirt()) {
@@ -137,9 +140,6 @@ public class Room implements Runnable {
                 }
                 else if (c.hasJewel()) {
                     System.out.print(" * |");
-                }
-                else if (this.robotCoord != null && this.robotCoord.x == j && this.robotCoord.y == i) {
-                    System.out.print(" + |");
                 }
                 else {
                     System.out.print("   |");

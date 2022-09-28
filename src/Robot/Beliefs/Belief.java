@@ -6,6 +6,7 @@ import java.util.List;
 
 import Robot.Actions.Action;
 import Robot.Actions.Move;
+import Robot.Actions.NoAction;
 import Robot.Actions.Pick;
 import Robot.Actions.Vacuum;
 import myUtil.Vec2Int;
@@ -132,7 +133,13 @@ public class Belief {
                 out.getJewelCellesIndex().removeAll(tmp);
             }
         }
-        
+        else if (a instanceof NoAction) {
+            // no action
+        }
+        else {
+            throw new IllegalArgumentException("illegal action: " + a.toString());
+        }
+
         out.energyAvailable -= 1;
         return out;
     }

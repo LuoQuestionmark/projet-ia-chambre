@@ -1,5 +1,6 @@
 package Robot;
 
+import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -102,6 +103,10 @@ public class Robot implements Runnable {
         return true;
     }
     
+    public boolean doNothing () {
+        return true;
+    }
+    
     synchronized public boolean act() {
         // do something from the intention list
         // or do nothing if there is nothing to do
@@ -152,6 +157,7 @@ public class Robot implements Runnable {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 // don't wake me up...
+                throw new UnknownError("Who wake this program up?");
             }
 
             // System.out.println(this);

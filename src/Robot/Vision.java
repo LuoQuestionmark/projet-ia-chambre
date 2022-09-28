@@ -22,7 +22,7 @@ public class Vision {
         for (int r = 0; r < 5; r++) {
             for (int c = 0; c < 5; c++) {
                 if (cleanIndexs.contains(r * 5 + c)) continue;
-                out.add(new Vec2Int(r, c));
+                out.add(new Vec2Int(c, r));
             }
         }
         return out;
@@ -37,7 +37,7 @@ public class Vision {
         for (int r = 0; r < 5; r++) {
             for (int c = 0; c < 5; c++) {
                 if (cleanIndexs.contains(r * 5 + c)) continue;
-                out.add(new Vec2Int(r, c));
+                out.add(new Vec2Int(c, r));
             }
         }
         return out;

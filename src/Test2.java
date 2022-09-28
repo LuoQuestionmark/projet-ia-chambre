@@ -14,7 +14,7 @@ public class Test2 {
         r.geneDirt(3);
         while (true) {
             r.printRoom();
-            // System.out.print(bot);
+            System.out.print(bot);
             Thread.sleep(1000);
         }
     }

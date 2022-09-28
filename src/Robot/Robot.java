@@ -80,8 +80,8 @@ public class Robot implements Runnable {
             return false;
         }
 
-        int r = this.coord.x;
-        int c = this.coord.y;
+        int r = this.coord.y;
+        int c = this.coord.x;
 
         this.cleaner.cleanCell(r, c);
         return true;
@@ -109,9 +109,9 @@ public class Robot implements Runnable {
             return false;
         }
         // pop the action
-        Action a = this.intentions.get(this.intentions.size() - 1);
+        Action a = this.intentions.get(0);
         a.doThis();
-        this.intentions.remove(this.intentions.size() - 1);
+        this.intentions.remove(0);
         return true;
     }
 
@@ -154,7 +154,7 @@ public class Robot implements Runnable {
                 // don't wake me up...
             }
 
-            System.out.println(this);
+            // System.out.println(this);
         }
     }
 }

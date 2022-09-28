@@ -3,6 +3,7 @@
 package Rooms;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom; // using this instead of Random because of the 
                                                // possible implementation of multithread in 
                                                // the future.
@@ -19,6 +20,15 @@ public class Room implements Runnable {
     private boolean addDirt = false;
 
     volatile public boolean isRunning = false;
+    volatile public boolean autoGenerate = false;
+
+    public void setAutoGenerate(boolean autoGenerate) {
+        this.autoGenerate = autoGenerate;
+    }
+
+    private double dirtGeneratePerSecond = 0.5;
+    private double jewelGeneratePerSecond = 0.4;
+    long lastUpdate = System.currentTimeMillis();
 
     public Room() {
         this.cells = new ArrayList<>();
@@ -73,7 +83,7 @@ public class Room implements Runnable {
         if (cleanCells.size() == 0) return false;
 
         int roomIndex = ThreadLocalRandom.current().nextInt(cleanCells.size());
-        this.cells.get(roomIndex).setJewel(true);
+        cleanCells.get(roomIndex).setJewel(true);
 
         return true;
     }
@@ -93,7 +103,7 @@ public class Room implements Runnable {
         if (cleanCells.size() == 0) return false;
         
         int roomIndex = ThreadLocalRandom.current().nextInt(cleanCells.size());
-        this.cells.get(roomIndex).setDirt(true);
+        cleanCells.get(roomIndex).setDirt(true);
         
         return true;
     }
@@ -171,6 +181,21 @@ public class Room implements Runnable {
                 this.addDirt = false;
                 this.geneDirt();
             }
+
+            if (autoGenerate) {
+                long t = System.currentTimeMillis() - lastUpdate;
+                Random random = new Random(System.currentTimeMillis());
+                
+                this.geneDirt((int)(random.nextGaussian()/2 + t/1000 * dirtGeneratePerSecond));
+                this.geneJewel((int)(random.nextGaussian()/2 + t/1000 * jewelGeneratePerSecond));
+                lastUpdate = System.currentTimeMillis();
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                // don't wake me...
+            }
+
         }
     }
 

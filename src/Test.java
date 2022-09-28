@@ -3,6 +3,7 @@ import Rooms.*;
 public class Test {
     public static void main(String[] args) throws Exception {
         Room r = new Room();
+        r.setAutoGenerate(true);
         // System.out.println("start with an empty room: ");
         // r.printRoom();
 
@@ -18,8 +19,7 @@ public class Test {
         roomThread.start();
         while (true) {
             r.printRoom();
-            r.newDirt();
-            r.newJewel();
+
             Thread.sleep(1000);
         }
     }

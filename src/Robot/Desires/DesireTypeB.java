@@ -10,7 +10,7 @@ public class DesireTypeB implements Desire {
     @Override
     public int evaluate(Belief b) {
         if (b.dirtyCellsIndex.size() > 0) return 0;
-        if (b.JewelcellsIndex.size() > 0) return 0;
+        if (b.jewelCellsIndex.size() > 0) return 0;
         if (b.jewelCleaned > 0) return 0;
         return 1;
     }

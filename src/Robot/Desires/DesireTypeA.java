@@ -8,8 +8,8 @@ public class DesireTypeA implements Desire {
 
     @Override
     public int evaluate(Belief b) {
-        if (b.dirtyCellsIndex.size() > 0) return 0;
-        if (b.JewelcellsIndex.size() > 0) return 0;
+        if (b.getDirtyCellsIndex().size() > 0) return 0;
+        if (b.getJewelCellesIndex().size() > 0) return 0;
         return 1;
     }
     

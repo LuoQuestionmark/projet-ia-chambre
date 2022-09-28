@@ -31,6 +31,7 @@ public class Belief {
     public int dirtCleaned = 0;
     public int jewelCleaned = 0;
     public int jewelCollected = 0;
+    public int energyUsed = 0;
     public int energyAvailable = Integer.MAX_VALUE; // after all it's free
 
     public Belief(Vec2Int coord, List<Vec2Int> dirtyCellsIndex, List<Vec2Int> JewelcellsIndex) {
@@ -139,8 +140,11 @@ public class Belief {
         else {
             throw new IllegalArgumentException("illegal action: " + a.toString());
         }
-
-        out.energyAvailable -= 1;
+        
+        if (!(a instanceof NoAction)) {
+            out.energyUsed = this.energyUsed + 1;
+            out.energyAvailable -= 1;
+        }
         return out;
     }
 }

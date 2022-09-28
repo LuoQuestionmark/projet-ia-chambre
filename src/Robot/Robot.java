@@ -7,7 +7,8 @@ import java.util.List;
 import Robot.Actions.Action;
 import Robot.Beliefs.Belief;
 import Robot.Desires.Desire;
-import Robot.Search.NonInformedSearch;
+import Robot.Search.Search;
+import Robot.Search.SearchGenerator;
 import Rooms.Room;
 import myUtil.Vec2Int;
 
@@ -26,13 +27,15 @@ public class Robot implements Runnable {
     private List<Action> intentions = Collections.synchronizedList(new ArrayList<Action>());
     private Belief belief;
     private Desire desire;
+    private SearchGenerator searchGenerator;
 
-    public Robot (Room r, Desire d) {
+    public Robot (Room r, Desire d, SearchGenerator sg) {
         this.energy = Robot.defaultEnergy;
         this.room = r;
         this.vision = new Vision(r);
         this.cleaner = new Cleaner(r);
         this.desire = d;
+        this.searchGenerator = sg;
     }
 
     public boolean move (int direction) {
@@ -143,7 +146,7 @@ public class Robot implements Runnable {
 
     public void run() {
         // Desire desire = new DesireTypeA();
-        NonInformedSearch search = new NonInformedSearch(observe(), desire, this);
+        Search search = this.searchGenerator.generateSearch(observe(), desire, this);
         while (alive) {
             observe();
             synchronized(this.intentions) {

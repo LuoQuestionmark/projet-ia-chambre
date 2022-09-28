@@ -132,8 +132,8 @@ public class Robot implements Runnable {
     @Override
     synchronized public String toString() {
         String out = new String();
-        out += "robot status: \n";
-        out += String.format("located at coord %d, %d\n", this.coord.x, this.coord.y);
+        out += "robot status: ";
+        out += String.format("located at coord %d, %d, ", this.coord.x, this.coord.y);
         out += String.format("with energy %d\n", this.energy);
         out += "current intentions: \n";
         synchronized(this.intentions) {
@@ -149,6 +149,7 @@ public class Robot implements Runnable {
         Search search = this.searchGenerator.generateSearch(observe(), desire, this);
         while (alive) {
             observe();
+            this.room.setRobotCoord(this.coord);
             synchronized(this.intentions) {
                 if (this.intentions.size() == 0) {
                     this.intentions.addAll((search.doSearch(this.belief)));

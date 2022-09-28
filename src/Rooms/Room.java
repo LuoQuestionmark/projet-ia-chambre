@@ -7,9 +7,13 @@ import java.util.concurrent.ThreadLocalRandom; // using this instead of Random b
                                                // possible implementation of multithread in 
                                                // the future.
 
+import myUtil.Vec2Int;
+
 public class Room implements Runnable {
     private final int cellNum = 25;
     private ArrayList<Cell> cells;
+
+    private Vec2Int robotCoord = null;
 
     private boolean addJewel = false;
     private boolean addDirt = false;
@@ -124,6 +128,9 @@ public class Room implements Runnable {
                 else if (c.hasJewel()) {
                     System.out.print(" * |");
                 }
+                else if (this.robotCoord != null && this.robotCoord.x == j && this.robotCoord.y == i) {
+                    System.out.print(" + |");
+                }
                 else {
                     System.out.print("   |");
                 }
@@ -165,5 +172,9 @@ public class Room implements Runnable {
                 this.geneDirt();
             }
         }
+    }
+
+    synchronized public void setRobotCoord(Vec2Int v) {
+        this.robotCoord = new Vec2Int(v.x, v.y);
     }
 }

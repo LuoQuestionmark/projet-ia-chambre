@@ -57,8 +57,6 @@ public class InformedSearch implements Search {
             }
         }
 
-        out.add(new NoAction());
-
         return out;
     }
 
@@ -68,6 +66,13 @@ public class InformedSearch implements Search {
         // so that we basically implement a greedy algorithm
         // using the function from DesireTypeC as the
         // evaluation function.
+
+        if (b.dirtyCellsIndex.size() == 0 &&
+            b.jewelCellsIndex.size() == 0) {
+            return new ArrayList<Action>();
+        }
+
+
         PriorityQueue<Belief> queue = new PriorityQueue<>(new InnerComparator(this.desire));
 
         HashMap<Belief, ArrayList<Action>> dict = new HashMap<Belief,ArrayList<Action>>();
@@ -87,13 +92,6 @@ public class InformedSearch implements Search {
                 if (newBelief.dirtyCellsIndex.size() == 0 &&
                     newBelief.jewelCellsIndex.size() == 0) {
                         // exit
-                        ArrayList<Action> tmp = new ArrayList<>();
-                        for (Action a2: actions) {
-                            if (a2 instanceof NoAction) {
-                                tmp.add(a2);
-                            }
-                        }
-                        actions.removeAll(tmp);
                         return actions;
                     }
 

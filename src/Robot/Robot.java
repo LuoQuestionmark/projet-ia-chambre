@@ -151,7 +151,7 @@ public class Robot implements Runnable {
             observe();
             synchronized(this.intentions) {
                 if (this.intentions.size() == 0) {
-                    this.intentions = Collections.synchronizedList(search.doSearch(this.belief));
+                    this.intentions.addAll((search.doSearch(this.belief)));
                 }
             }
             this.act();

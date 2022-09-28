@@ -35,6 +35,7 @@ public class Move implements Action{
                 break;
             case 3:
                 dir = "up";
+                break;
         
             default:
                 // lol, the program break
@@ -42,5 +43,9 @@ public class Move implements Action{
                 break;
         }
         return "action: move" + dir;
+    }
+
+    public int getDirection() {
+        return this.direction;
     }
 }

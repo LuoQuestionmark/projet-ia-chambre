@@ -1,15 +1,20 @@
 package Robot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import Robot.Actions.Action;
 import Robot.Beliefs.Belief;
 import Robot.Desires.Desire;
+import Robot.Search.NonInformedSearch;
 import Rooms.Room;
 import myUtil.Vec2Int;
 
-public class Robot {
-    static final int defaultEnergy = 10; // a random value
+public class Robot implements Runnable {
+    static final int defaultEnergy = Integer.MAX_VALUE; // a random value
+
+    public boolean alive = true;
 
     private int energy;
     private Vec2Int coord = new Vec2Int(0, 0);
@@ -18,7 +23,7 @@ public class Robot {
     private Vision vision;    // the vision class
     private Cleaner cleaner;  // the cleaner class
 
-    private ArrayList<Action> intentions;
+    private List<Action> intentions = Collections.synchronizedList(new ArrayList<Action>());
     private Belief belief;
     private Desire desire;
 
@@ -97,7 +102,9 @@ public class Robot {
         return true;
     }
     
-    public boolean act() {
+    synchronized public boolean act() {
+        // do something from the intention list
+        // or do nothing if there is nothing to do
         if (this.intentions.size() == 0) {
             return false;
         }
@@ -108,20 +115,46 @@ public class Robot {
         return true;
     }
 
-    public void observe() {
+    synchronized public Belief observe() {
+        // yes this function update the belief in two ways
+        // just like the time() from <time.h> in C.
         this.belief = new Belief(this.coord, this.vision.getDirtyCellsIndex(), this.vision.getJewelCellsIndex());
+        return this.belief;
     }
     
     @Override
-    public String toString() {
+    synchronized public String toString() {
         String out = new String();
         out += "robot status: \n";
         out += String.format("located at coord %d, %d\n", this.coord.x, this.coord.y);
-        out += String.format("with energy %d", this.energy);
+        out += String.format("with energy %d\n", this.energy);
         out += "current intentions: \n";
-        for (Action a: this.intentions) {
-            out += "|-" + a.toString() + "\n";
+        synchronized(this.intentions) {
+            for (Action a: this.intentions) {
+                out += "|-" + a.toString() + "\n";
+            }
         }
         return out;
+    }
+
+    public void run() {
+        // Desire desire = new DesireTypeA();
+        NonInformedSearch search = new NonInformedSearch(observe(), desire, this);
+        while (alive) {
+            observe();
+            synchronized(this.intentions) {
+                if (this.intentions.size() == 0) {
+                    this.intentions = Collections.synchronizedList(search.doSearch(this.belief));
+                }
+            }
+            this.act();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // don't wake me up...
+            }
+
+            System.out.println(this);
+        }
     }
 }

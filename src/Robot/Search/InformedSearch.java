@@ -1,6 +1,7 @@
 package Robot.Search;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -57,7 +58,8 @@ public class InformedSearch implements Search {
             }
         }
 
-        return out;
+        Collections.shuffle(out);
+        return out; 
     }
 
     @Override
@@ -86,7 +88,8 @@ public class InformedSearch implements Search {
                 Belief newBelief = situation.act(a);
                 actions.add(a);
 
-                int score = this.desire.evaluate(newBelief);
+                // int score = this.desire.evaluate(newBelief);
+                // System.out.println(score);
 
                 // exit condition
                 if (newBelief.dirtyCellsIndex.size() == 0 &&

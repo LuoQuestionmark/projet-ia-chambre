@@ -16,8 +16,8 @@ public class DesireTypeC implements Desire {
         final int baseScore = 1000;
         int bonusScore = 0;
 
-        bonusScore += 2 * b.dirtCleaned;
-        bonusScore += 3 * b.jewelCollected;
+        bonusScore += 8 * b.dirtCleaned;
+        bonusScore += 10 * b.jewelCollected;
         bonusScore -= 5 * b.jewelCleaned;
         bonusScore -= 1 * b.energyUsed;
         

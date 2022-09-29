@@ -54,7 +54,7 @@ Each `Desire` basically is the container of an evaluation function. To see if th
 
 All the code are written with functions in the standard libraries, so no extra import is needed. To compile and to execute the program, use the general methods of `javac` and `java` in a console.
 
-There are four `Test` classes in the `./Tests` repository. `Test` and `Test2` are show cases of the implentations, while `Test3` and `Test4` contains more complicated examples.
+There are four `Test` classes in the `./Tests` repository. `Test` and `Test2` are show cases of the implentations, while `Test3` and `Test4` contains more complicated examples. Notice that all the information is printed in the console.
 
 ## Appendix: notes
 ### note from the lecture

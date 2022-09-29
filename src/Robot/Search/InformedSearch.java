@@ -94,9 +94,9 @@ public class InformedSearch implements Search {
                 // exit condition
                 if (newBelief.dirtyCellsIndex.size() == 0 &&
                     newBelief.jewelCellsIndex.size() == 0) {
-                        // exit
                         return actions;
                     }
+                if (actions.size() > 1000) return actions;
 
                 queue.add(newBelief);
                 dict.put(newBelief, actions);

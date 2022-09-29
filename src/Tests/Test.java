@@ -1,3 +1,4 @@
+package Tests;
 import Rooms.*;
 
 public class Test {

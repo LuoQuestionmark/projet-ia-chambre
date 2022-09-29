@@ -1,23 +1,24 @@
+package Tests;
 import Rooms.*;
 import Robot.*;
 import Robot.Desires.*;
-import Robot.Search.InformedSearchGenerator;
+import Robot.Search.NonInformedSearchGenerator;
 import Robot.Search.SearchGenerator;
 
-public class Test3 {
+public class Test2 {
     public static void main(String[] args) throws Exception {
         Room r = new Room();
-        SearchGenerator sg = new InformedSearchGenerator();
-        Robot bot = new Robot(r, new DesireTypeC(), sg);
+        SearchGenerator sg = new NonInformedSearchGenerator();
+        Robot bot = new Robot(r, new DesireTypeB(), sg);
 
         Thread roomThread = new Thread(r);
         Thread botThread = new Thread(bot);
         roomThread.start();
         botThread.start();
-        r.setAutoGenerate(true);
+        r.geneDirt(3);
         while (true) {
-            System.out.print(bot);
             r.printRoom();
+            System.out.print(bot);
             Thread.sleep(1000);
         }
     }

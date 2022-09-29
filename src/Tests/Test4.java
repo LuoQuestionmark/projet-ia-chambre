@@ -1,3 +1,4 @@
+package Tests;
 import Rooms.*;
 import Robot.*;
 import Robot.Desires.*;

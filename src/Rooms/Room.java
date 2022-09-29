@@ -19,6 +19,10 @@ public class Room implements Runnable {
     private boolean addJewel = false;
     private boolean addDirt = false;
 
+    private int dirtCleaned = 0;
+    private int jewelPicked = 0;
+    private int jewelCleaned = 0;
+
     volatile public boolean isRunning = false;
     volatile public boolean autoGenerate = false;
 
@@ -26,8 +30,8 @@ public class Room implements Runnable {
         this.autoGenerate = autoGenerate;
     }
 
-    private double dirtGeneratePerSecond = 0.5;
-    private double jewelGeneratePerSecond = 0.4;
+    private double dirtGeneratePerSecond = 0.2;
+    private double jewelGeneratePerSecond = 0.1;
     long lastUpdate = System.currentTimeMillis();
 
     public Room() {
@@ -147,6 +151,7 @@ public class Room implements Runnable {
             }
             System.out.print("\n");
         }
+        System.out.format("dirt cleaned: %d, jewel cleaned %d, jewel picked %d\n", dirtCleaned, jewelCleaned, jewelPicked);
     }
 
     synchronized public void newDirt() {
@@ -160,11 +165,20 @@ public class Room implements Runnable {
     }
 
     synchronized public void clearCell(int index) {
+        if (this.cells.get(index).hasDirt()) {
+            this.dirtCleaned += 1;
+        }
+        if (this.cells.get(index).hasJewel()) {
+            this.jewelCleaned += 1;
+        }
         this.cells.get(index).setDirt(false);
         this.cells.get(index).setJewel(false);
     }
 
     synchronized public void pickJewel(int index) {
+        if (this.cells.get(index).hasJewel()) {
+            this.jewelPicked += 1;
+        }
         this.cells.get(index).setJewel(false);
     }
 

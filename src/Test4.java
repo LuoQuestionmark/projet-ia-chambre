@@ -4,7 +4,7 @@ import Robot.Desires.*;
 import Robot.Search.InformedSearchGenerator;
 import Robot.Search.SearchGenerator;
 
-public class Test3 {
+public class Test4 {
     public static void main(String[] args) throws Exception {
         Room r = new Room();
         SearchGenerator sg = new InformedSearchGenerator();
@@ -14,6 +14,8 @@ public class Test3 {
         Thread botThread = new Thread(bot);
         roomThread.start();
         botThread.start();
+        r.geneDirt(1);
+        r.geneJewel(3);
         r.setAutoGenerate(true);
         while (true) {
             System.out.print(bot);

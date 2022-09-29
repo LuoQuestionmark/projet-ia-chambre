@@ -16,10 +16,10 @@ public class DesireTypeC implements Desire {
         final int baseScore = 1000;
         int bonusScore = 0;
 
-        bonusScore += 8 * b.dirtCleaned;
-        bonusScore += 10 * b.jewelCollected;
-        bonusScore -= 5 * b.jewelCleaned;
-        bonusScore -= 1 * b.energyUsed;
+        bonusScore += 40 * b.dirtCleaned;
+        bonusScore += 60 * b.jewelCollected;
+        bonusScore -= 50 * b.jewelCleaned;
+        bonusScore -= 10 * b.energyUsed;
         
         for (Vec2Int v: b.dirtyCellsIndex) {
             bonusScore -= Math.abs(v.x - b.coord.x);
